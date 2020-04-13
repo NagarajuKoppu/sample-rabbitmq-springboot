@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: SampleRabbitmqApplication
+  main:
+    allow-bean-definition-overriding: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+app:
+  mq:
+    direct:
+      queuename: test-direct-queue
+      exchangename: test-direct-exchange
+      routingkey: direct-routing-key
+    fanout:
+      queuename1: test-fanout-queue-1
+      queuename2: test-fanout-queue-2
+      exchangename: test-fanout-exchange
+    topic:
+      queuename1: test-topic-queue-1
+      queuename2: test-topic-queue-2
+      queuename3: test-topic-queue-3
+      exchangename: test-topic-exchange
+      routingkey1: topic.*.*
+      routingkey2: topic.key.*
+      routingkey3: topic.key.mycustom
+      messageroutingkey: topic.key.mycustom
+    header:
+      queuename1: test-header-queue-1
+      queuename2: test-header-queue-2
+      exchangename: test-header-exchange
+      headername: my-header
+      headervalue1: my-header-vaue-1
+      headervalue2: my-header-vaue-2
+      messageroutingkey: my-header-vaue-1
+      
+      
+      
