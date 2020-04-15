@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.training.sample.rabbitmq.listener.RabbitMqFanoutListener;
+import com.training.sample.rabbitmq.listener.RabbitMqFanoutQueue1Listener;
+import com.training.sample.rabbitmq.listener.RabbitMqFanoutQueue2Listener;
 
 @Configuration
 public class RabbitMqFanoutExchangeConfig {
@@ -50,18 +51,35 @@ public class RabbitMqFanoutExchangeConfig {
 	}
 
 	@Bean
-	public SimpleMessageListenerContainer fanoutListenerContainer(ConnectionFactory connectionFactory,
-			MessageListenerAdapter fanoutAdapter) {
+	public SimpleMessageListenerContainer fanoutListenerContainer1(ConnectionFactory connectionFactory,
+			MessageListenerAdapter fanoutAdapter1) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
-		container.setMessageListener(fanoutAdapter);
-		container.setQueueNames(queueName1, queueName2);
+		container.setMessageListener(fanoutAdapter1);
+		container.setQueueNames(queueName1);
 		return container;
 	}
 
 	@Bean
-	public MessageListenerAdapter fanoutAdapter(RabbitMqFanoutListener rabbitMqFanoutListener,
+	public MessageListenerAdapter fanoutAdapter1(RabbitMqFanoutQueue1Listener rabbitMqFanoutQueue1Listener) {
+		MessageListenerAdapter fanoutAdapter = new MessageListenerAdapter(rabbitMqFanoutQueue1Listener, "onMessage");
+		fanoutAdapter.setMessageConverter(null);// this is to make sure no parsing on message to be done and supply
+												// "Message" object directly to queue listener
+		return fanoutAdapter;
+	}
+
+	@Bean
+	public SimpleMessageListenerContainer fanoutListenerContainer2(ConnectionFactory connectionFactory,
+			MessageListenerAdapter fanoutAdapter2) {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
+		container.setMessageListener(fanoutAdapter2);// parse message into Employee object
+		container.setQueueNames(queueName2);
+		return container;
+	}
+
+	@Bean
+	public MessageListenerAdapter fanoutAdapter2(RabbitMqFanoutQueue2Listener rabbitMqFanoutQueue2Listener,
 			MessageConverter jsonMessageConverter) {
-		MessageListenerAdapter fanoutAdapter = new MessageListenerAdapter(rabbitMqFanoutListener, "onMessage");
+		MessageListenerAdapter fanoutAdapter = new MessageListenerAdapter(rabbitMqFanoutQueue2Listener, "onMessage");
 		fanoutAdapter.setMessageConverter(jsonMessageConverter);
 		return fanoutAdapter;
 
