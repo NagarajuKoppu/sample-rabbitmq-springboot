@@ -22,6 +22,9 @@ public class Employee {
 		return "Employee [id=" + id + ", name=" + name + ", salary=" + salary + "]";
 	}
 
+	public Employee() {
+	}
+
 	@Generated("SparkTools")
 	private Employee(Builder builder) {
 		this.id = builder.id;

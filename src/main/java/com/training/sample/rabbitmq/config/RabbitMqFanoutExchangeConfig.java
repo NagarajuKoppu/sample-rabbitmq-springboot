@@ -4,9 +4,15 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.training.sample.rabbitmq.listener.RabbitMqFanoutListener;
 
 @Configuration
 public class RabbitMqFanoutExchangeConfig {
@@ -43,4 +49,21 @@ public class RabbitMqFanoutExchangeConfig {
 		return BindingBuilder.bind(fanoutQueue2).to(fanoutExchange);
 	}
 
+	@Bean
+	public SimpleMessageListenerContainer fanoutListenerContainer(ConnectionFactory connectionFactory,
+			MessageListenerAdapter fanoutAdapter) {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
+		container.setMessageListener(fanoutAdapter);
+		container.setQueueNames(queueName1, queueName2);
+		return container;
+	}
+
+	@Bean
+	public MessageListenerAdapter fanoutAdapter(RabbitMqFanoutListener rabbitMqFanoutListener,
+			MessageConverter jsonMessageConverter) {
+		MessageListenerAdapter fanoutAdapter = new MessageListenerAdapter(rabbitMqFanoutListener, "onMessage");
+		fanoutAdapter.setMessageConverter(jsonMessageConverter);
+		return fanoutAdapter;
+
+	}
 }
