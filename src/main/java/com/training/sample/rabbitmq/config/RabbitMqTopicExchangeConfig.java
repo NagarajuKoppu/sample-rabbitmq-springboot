@@ -1,12 +1,17 @@
 package com.training.sample.rabbitmq.config;
 
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.training.sample.rabbitmq.listener.RabbitMqTopicListener;
 
 @Configuration
 public class RabbitMqTopicExchangeConfig {
@@ -59,6 +64,16 @@ public class RabbitMqTopicExchangeConfig {
 	@Bean
 	public Binding topicBinding3(Queue topicQueue3, TopicExchange topicExchange) {
 		return BindingBuilder.bind(topicQueue3).to(topicExchange).with(routingKey3);
+	}
+
+	@Bean
+	public SimpleMessageListenerContainer topicContainer(ConnectionFactory connectionFactory,
+			RabbitMqTopicListener rabbitMqTopicListener) {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
+		container.setMessageListener(rabbitMqTopicListener);
+		container.setQueueNames(queueName1);
+		container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+		return container;
 	}
 
 }
