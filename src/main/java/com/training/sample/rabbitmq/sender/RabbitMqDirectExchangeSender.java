@@ -1,4 +1,4 @@
-package com.training.sample.rabbitmq.service;
+package com.training.sample.rabbitmq.sender;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,21 +8,21 @@ import org.springframework.stereotype.Component;
 import com.training.sample.rabbitmq.dto.Employee;
 
 @Component
-public class RabbitMqTopicExchangeSender {
+public class RabbitMqDirectExchangeSender {
 	@Autowired
 	private AmqpTemplate rabbitTemplate;
 
-	@Value("${app.mq.topic.exchangename}")
+	@Value("${app.mq.direct.exchangename}")
 	String exchangeName;
-	@Value("${app.mq.topic.messageroutingkey}")
-	String messageRoutingKey;
+	@Value("${app.mq.direct.routingkey}")
+	String routingKey;
 
 	public String getExchangeName() {
 		return exchangeName;
 	}
 
 	public void send(Employee employee) {
-		rabbitTemplate.convertAndSend(exchangeName, messageRoutingKey, employee);
+		rabbitTemplate.convertAndSend(exchangeName, routingKey, employee);
 		System.out.println("Send msg to direct exchange: " + exchangeName + " with payload: " + employee);
 
 	}

@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.training.sample.rabbitmq.dto.Employee;
-import com.training.sample.rabbitmq.service.RabbitMqDirectExchangeSender;
-import com.training.sample.rabbitmq.service.RabbitMqFanoutExchangeSender;
-import com.training.sample.rabbitmq.service.RabbitMqHeaderExchangeSender;
-import com.training.sample.rabbitmq.service.RabbitMqTopicExchangeSender;
+import com.training.sample.rabbitmq.sender.RabbitMqDirectExchangeSender;
+import com.training.sample.rabbitmq.sender.RabbitMqFanoutExchangeSender;
+import com.training.sample.rabbitmq.sender.RabbitMqHeaderExchangeSender;
+import com.training.sample.rabbitmq.sender.RabbitMqTopicExchangeSender;
 
 @RestController
 @RequestMapping(value = "/publish")
