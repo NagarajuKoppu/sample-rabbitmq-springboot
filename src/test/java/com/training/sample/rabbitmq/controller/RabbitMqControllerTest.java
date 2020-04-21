@@ -24,8 +24,7 @@ public class RabbitMqControllerTest {
 	void test_topic_exchange() throws UnsupportedEncodingException, Exception {
 		String response = mockMvc.perform(get("/publish/topic?empName=ananya&empId=12000")).andReturn().getResponse()
 				.getContentAsString();
-		assertEquals("Message published to the RabbitMQ exchange 'test-topic-exchange' Successfully", response,
-				"response should match");
+		assertEquals("Message published to the RabbitMQ exchange 'test-topic-exchange' Successfully", response);
 	}
 
 	@Test
@@ -33,8 +32,7 @@ public class RabbitMqControllerTest {
 	void test_direct_exchange() throws UnsupportedEncodingException, Exception {
 		String response = mockMvc.perform(get("/publish/direct?empName=ananya&empId=12000")).andReturn().getResponse()
 				.getContentAsString();
-		assertEquals("Message published to the RabbitMQ exchange 'test-direct-exchange' Successfully", response,
-				"response should match");
+		assertEquals("Message published to the RabbitMQ exchange 'test-direct-exchange' Successfully", response);
 	}
 
 	@Test
@@ -42,8 +40,7 @@ public class RabbitMqControllerTest {
 	void test_fanout_exchange() throws UnsupportedEncodingException, Exception {
 		String response = mockMvc.perform(get("/publish/fanout?empName=ananya&empId=12000")).andReturn().getResponse()
 				.getContentAsString();
-		assertEquals("Message published to the RabbitMQ exchange 'test-fanout-exchange' Successfully", response,
-				"response should match");
+		assertEquals("Message published to the RabbitMQ exchange 'test-fanout-exchange' Successfully", response);
 	}
 
 	@Test
@@ -51,8 +48,7 @@ public class RabbitMqControllerTest {
 	void test_header_exchange() throws UnsupportedEncodingException, Exception {
 		String response = mockMvc.perform(get("/publish/header?empName=ananya&empId=12000")).andReturn().getResponse()
 				.getContentAsString();
-		assertEquals("Message published to the RabbitMQ exchange 'test-header-exchange' Successfully", response,
-				"response should match");
+		assertEquals("Message published to the RabbitMQ exchange 'test-header-exchange' Successfully", response);
 	}
 
 }
