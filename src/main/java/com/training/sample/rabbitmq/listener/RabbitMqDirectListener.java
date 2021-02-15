@@ -24,4 +24,16 @@ public class RabbitMqDirectListener {
 		System.out.println(emp);
 		channel.basicAck(deliveryTag, false);
 	}
+
+	// using spring cloud stream
+//	 @StreamListener(Sink.INPUT)
+//	    public void in(String in, @Header(AmqpHeaders.CHANNEL) Channel channel,
+//	            @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
+//	        System.out.println(in);
+//	        Thread.sleep(60_000);
+//	        channel.basicAck(tag, false);
+//	        System.out.println("Ackd");
+//	    }
+//	Also set the below property in configuration: <channel> --> input
+//	spring.cloud.stream.rabbit.bindings.<channel>.consumer.acknowledge-mode=MANUAL
 }
